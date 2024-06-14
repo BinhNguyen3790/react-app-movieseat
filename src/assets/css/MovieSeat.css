@@ -86,3 +86,12 @@
   height: 35px;
 
 }
+
+table,
+tr,
+td,
+th {
+  background-color: transparent !important;
+  border: 1px solid #fff;
+  color: #fff !important;
+}

@@ -1,7 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import "../assets/css/MovieSeat.css";
 import ResultSeat from "./ResultSeat";
+import ListSeat from "./ListSeat";
+import rowSeats from "../data/danhSachGhe.json";
 class MovieSeat extends Component {
+  renderSeat = () => {
+    return rowSeats.map((seat, index) => {
+      return (
+        <Fragment key={index}>
+          <ListSeat />
+        </Fragment>
+      );
+    });
+  };
+
   render() {
     return (
       <div className="bookingMovie">
@@ -12,6 +24,7 @@ class MovieSeat extends Component {
               <div className="d-flex align-items-center flex-column">
                 <h2 className="text-center">Screen</h2>
                 <div className="screen"></div>
+                {this.renderSeat()}
               </div>
             </div>
             <div className="col-4">
