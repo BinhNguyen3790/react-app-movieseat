@@ -8,7 +8,7 @@ class MovieSeat extends Component {
     return rowSeats.map((seat, index) => {
       return (
         <Fragment key={index}>
-          <ListSeat />
+          <ListSeat seat={seat} firstSeat={index} />
         </Fragment>
       );
     });
