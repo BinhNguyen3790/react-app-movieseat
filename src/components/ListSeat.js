@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { setSeat } from "../redux/actions/MovieSeatAction";
 
 class ListSeat extends Component {
   renderSeat = () => {
@@ -9,8 +11,22 @@ class ListSeat extends Component {
         cssSeat = "gheDuocChon";
         disable = true;
       }
+
+      let cssSeatChose = "";
+      let indexSeatChose = this.props.listSeat.findIndex((seatChose) => seatChose.soGhe === seat.soGhe);
+      if (indexSeatChose !== -1) {
+        cssSeatChose = "gheDangChon";
+      }
+
       return (
-        <button disabled={disable} className={`ghe ${cssSeat}`} key={index}>
+        <button
+          onClick={() => {
+            this.props.setSeat(seat);
+          }}
+          disabled={disable}
+          className={`ghe ${cssSeat} ${cssSeatChose}`}
+          key={index}
+        >
           {seat.soGhe}
         </button>
       );
@@ -30,16 +46,16 @@ class ListSeat extends Component {
   renderRowSeat = () => {
     if (this.props.firstSeat === 0) {
       return (
-        <div>
-          <h2>{this.props.seat.hang}</h2>
-          <div>{this.renderSeatNumber()}</div>
+        <div className="d-flex mb-4 mt-3">
+          <h2 className="w-15">{this.props.seat.hang}</h2>
+          <div className="d-flex w-85">{this.renderSeatNumber()}</div>
         </div>
       );
     } else {
       return (
-        <div>
-          <h2>{this.props.seat.hang}</h2>
-          <div>{this.renderSeat()}</div>
+        <div className="d-flex">
+          <h2 className="w-15">{this.props.seat.hang}</h2>
+          <div className="d-flex w-85">{this.renderSeat()}</div>
         </div>
       );
     }
@@ -50,4 +66,18 @@ class ListSeat extends Component {
   }
 }
 
-export default ListSeat;
+const mapStateToProps = (state) => {
+  return {
+    listSeat: state.MovieSeat.listSeat,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSeat: (seat) => {
+      dispatch(setSeat(seat));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListSeat);

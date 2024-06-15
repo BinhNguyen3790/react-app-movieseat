@@ -95,3 +95,11 @@ th {
   border: 1px solid #fff;
   color: #fff !important;
 }
+
+.w-15 {
+  min-width: 50px;
+}
+
+.w-85 {
+  min-width: calc(100% - 50px);
+}
