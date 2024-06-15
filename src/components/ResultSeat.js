@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { removeSeat } from "../redux/actions/MovieSeatAction";
 
 class ResultSeat extends Component {
   render() {
@@ -25,17 +27,35 @@ class ResultSeat extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>45.000</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>45.000</td>
-                <td></td>
-              </tr>
+              {this.props.listSeat.map((seat, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{seat.soGhe}</td>
+                    <td>{seat.gia.toLocaleString()}</td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          this.props.removeSeat(seat.soGhe);
+                        }}
+                      >
+                        Cancel6
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td>Sum Price:</td>
+                <td>
+                  {this.props.listSeat.reduce((sum, seat, index) => {
+                    return (sum += seat.gia);
+                  }, 0)}
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
@@ -43,4 +63,18 @@ class ResultSeat extends Component {
   }
 }
 
-export default ResultSeat;
+const mapStateToProps = (state) => {
+  return {
+    listSeat: state.MovieSeat.listSeat,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeSeat: (numSeat) => {
+      dispatch(removeSeat(numSeat));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResultSeat);
